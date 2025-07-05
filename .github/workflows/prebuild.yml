@@ -1,0 +1,40 @@
+name: Expo Prebuild (ios + android)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  prebuild:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependências
+        run: |
+          npm install -g expo-cli
+          npm ci
+
+      - name: Gerar pastas nativas
+        run: |
+          npx expo prebuild --platform all --no-install
+
+      - name: Verificar pastas
+        run: |
+          ls -la
+          ls -la ios
+          ls -la android
+
+      - name: Upload das pastas como artefato
+        uses: actions/upload-artifact@v3
+        with:
+          name: pastas-nativas
+          path: |
+            ios
+            android
