@@ -25,14 +25,8 @@ jobs:
         run: |
           npx expo prebuild --platform all --no-install
 
-      - name: Verificar pastas
-        run: |
-          ls -la
-          ls -la ios
-          ls -la android
-
       - name: Upload das pastas como artefato
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pastas-nativas
           path: |
